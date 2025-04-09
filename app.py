@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, url_for, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 import os
+import click # 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'super-secret-key'
@@ -45,9 +46,11 @@ class RentRecord(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=True)
 
 # Optional: create DB on first run
-@app.before_first_request
-def create_tables():
+@app.cli.command("init-db")
+def init_db_command():
+    """Creates the database tables."""
     db.create_all()
+    click.echo("Initialized the database.")
 
 @app.route('/')
 def index():
