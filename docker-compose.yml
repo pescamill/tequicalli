@@ -6,8 +6,6 @@ services:
     volumes:
       - .:/app
     restart: always
-    depends_on:
-      - nginx
 
   nginx:
     image: nginx:stable-alpine
