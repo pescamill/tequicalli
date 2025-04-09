@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, request, redirect, url_for, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
@@ -54,5 +53,3 @@ def create_tables():
 def index():
     return "Tequicalli is running!"
 
-if __name__ == '__main__':
-    app.run(debug=True)
