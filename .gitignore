@@ -1,1 +1,4 @@
 deploy.sh
+*.log
+__pycache__/
+.env
