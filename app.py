@@ -56,3 +56,60 @@ def init_db_command():
 def index():
     return "Tequicalli is running!"
 
+@app.route('/houses', methods=['GET'])
+def houses():
+    all_houses = House.query.all()
+    return render_template('houses.html', houses=all_houses)
+
+@app.route('/add_house', methods=['POST'])
+def add_house():
+    name = request.form['name']
+    db.session.add(House(name=name))
+    db.session.commit()
+    return redirect(url_for('houses'))
+
+@app.route('/rooms', methods=['GET'])
+def rooms():
+    all_rooms = Room.query.all()
+    all_houses = House.query.all()
+    return render_template('rooms.html', rooms=all_rooms, houses=all_houses)
+
+@app.route('/add_room', methods=['POST'])
+def add_room():
+    name = request.form['name']
+    house_id = request.form['house_id']
+    db.session.add(Room(name=name, house_id=house_id))
+    db.session.commit()
+    return redirect(url_for('rooms'))
+
+@app.route('/clients', methods=['GET'])
+def clients():
+    all_clients = Client.query.all()
+    return render_template('clients.html', clients=all_clients)
+
+@app.route('/add_client', methods=['POST'])
+def add_client():
+    name = request.form['name']
+    email = request.form['email']
+    phone = request.form['phone']
+    db.session.add(Client(name=name, email=email, phone=phone))
+    db.session.commit()
+    return redirect(url_for('clients'))
+
+@app.route('/rents', methods=['GET'])
+def rents():
+    all_rents = RentRecord.query.all()
+    all_rooms = Room.query.all()
+    all_clients = Client.query.all()
+    return render_template('rents.html', rents=all_rents, rooms=all_rooms, clients=all_clients)
+
+@app.route('/add_rent', methods=['POST'])
+def add_rent():
+    from datetime import datetime
+    date = datetime.strptime(request.form['date'], '%Y-%m-%d')
+    amount = float(request.form['amount'])
+    room_id = request.form['room_id']
+    client_id = request.form.get('client_id') or None
+    db.session.add(RentRecord(date=date, amount=amount, room_id=room_id, client_id=client_id))
+    db.session.commit()
+    return redirect(url_for('rents'))

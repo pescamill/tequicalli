@@ -1,0 +1,19 @@
+# templates/rooms.html
+{% extends "layout.html" %}
+{% block content %}
+<h2>Rooms</h2>
+<ul>
+  {% for room in rooms %}
+    <li>{{ room.name }} (House: {{ room.house.name }})</li>
+  {% endfor %}
+</ul>
+<form method="post" action="/add_room">
+  <input type="text" name="name" placeholder="Room name">
+  <select name="house_id">
+    {% for house in houses %}
+      <option value="{{ house.id }}">{{ house.name }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Add Room</button>
+</form>
+{% endblock %}
