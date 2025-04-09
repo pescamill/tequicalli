@@ -52,6 +52,25 @@ def init_db_command():
     db.create_all()
     click.echo("Initialized the database.")
 
+# Login manager
+
+@login_manager.user_loader
+def load_user(user_id):
+    # user_id comes from the session cookie, usually as a string
+    # You need to query your database for the user with this ID
+    try:
+        # Convert user_id to an integer for querying
+        user_id_int = int(user_id)
+        # Query the User table using the primary key (id)
+        return User.query.get(user_id_int)
+    except ValueError:
+        # Handle cases where user_id is not a valid integer
+        return None
+    except Exception as e:
+        # Handle potential database errors, log the error
+        print(f"Error loading user {user_id}: {e}") # Basic error logging
+        return None
+
 @app.route('/')
 def index():
     return "Tequicalli is running!"
