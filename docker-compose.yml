@@ -10,9 +10,15 @@ services:
   nginx:
     image: nginx:stable-alpine
     ports:
+      # Map host ports 80/443 to container ports 80/443
       - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # Mount Let's Encrypt certificates (shared with Certbot)
+      - certbot_certs:/etc/letsencrypt
+      # Mount Certbot challenge verification files (shared with Certbot)
+      - certbot_www:/var/www/certbot
     depends_on:
       - web
     restart: always
