@@ -26,11 +26,9 @@ services:
       - certbot_certs:/etc/letsencrypt
       - certbot_www:/var/www/certbot
     entrypoint: ""
-    command: >
-      sh -c "certbot certonly --webroot --webroot-path=/var/www/certbot \
-             --email your-email@example.com --agree-tos --no-eff-email \
-             -d tequicalli.duckdns.org -d www.tequicalli.duckdns.org"
+    command: "sleep infinity" # Run on demand with certbot certonly ...
 
 volumes:
   certbot_certs:
   certbot_www:
+
