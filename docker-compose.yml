@@ -14,7 +14,7 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./certbot/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf:ro 
+      - ./certbot/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf:ro
       - certbot_certs:/etc/letsencrypt
       - certbot_www:/var/www/certbot
     depends_on:
@@ -23,12 +23,11 @@ services:
 
   certbot:
     image: certbot/certbot
+    container_name: tequicalli-certbot
     volumes:
       - certbot_certs:/etc/letsencrypt
       - certbot_www:/var/www/certbot
-    command: >
-      trap exit TERM; while :; do sleep 1 & wait $!; done
 
-volumes:
+volumes: 
   certbot_certs:
   certbot_www:
