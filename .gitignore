@@ -1,4 +1,19 @@
-deploy.sh
-*.log
+# Python
+venv/
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Docker / Certbot / Temporary
+certbot_certs/
+certbot_www/   
+temp_certs/
+
+# Environment variables
 .env
+
+# IDE / OS files
+.vscode/
+.idea/
+*.DS_Store

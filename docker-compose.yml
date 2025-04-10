@@ -29,7 +29,7 @@ services:
       - ./certbot/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf:ro
     entrypoint: "/bin/sh -c"
     command: >
-      "trap exit TERM; while :; do sleep 1 & wait $!; done"
+      trap exit TERM; while :; do sleep 1 & wait $!; done
 
 volumes:
   certbot_certs:
