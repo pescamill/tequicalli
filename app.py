@@ -73,7 +73,7 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return "Tequicalli is running!"
+    return render_template('index.html')
 
 @app.route('/houses', methods=['GET'])
 def houses():
