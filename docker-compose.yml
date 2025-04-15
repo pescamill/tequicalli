@@ -33,11 +33,11 @@ services:
       - certbot_www:/var/www/certbot
 
   db:
-  image: postgres:14
-  container_name: tequicalli-db
-  env_file:
+    image: postgres:14
+    container_name: tequicalli-db
+    env_file:
     - .env
-  volumes:
+    volumes:
     - db_data:/var/lib/postgresql/data
 
 volumes: 
