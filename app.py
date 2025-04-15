@@ -73,7 +73,7 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('layout.html')
 
 @app.route('/twice')
 def twice():
