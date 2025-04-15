@@ -1,4 +1,5 @@
 from flask import Flask, request, redirect, url_for, render_template
+from werkzeug.utils import secure_filename
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 import os
@@ -9,6 +10,24 @@ app.config['SECRET_KEY'] = 'super-secret-key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tequicalli.db'
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
+
+# Base directory for all uploads within the container
+BASE_UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads')
+
+# Specific subdirectories for different models/types
+CLIENT_IMAGE_FOLDER = os.path.join(BASE_UPLOAD_FOLDER, 'client_images')
+
+# Ensure all directories exist
+os.makedirs(CLIENT_IMAGE_FOLDER, exist_ok=True)
+
+# You might store these paths in app.config if preferred
+app.config['CLIENT_IMAGE_FOLDER'] = CLIENT_IMAGE_FOLDER
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
+
+# Helper function (as before)
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 # User model
 class User(UserMixin, db.Model):
@@ -30,12 +49,23 @@ class Room(db.Model):
     house_id = db.Column(db.Integer, db.ForeignKey('house.id'), nullable=False)
     rents = db.relationship('RentRecord', backref='room', lazy=True)
 
-# Client model
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100))
     phone = db.Column(db.String(20))
+    image_file = db.Column(db.String(100), nullable=True, default=None)
+
+ # Optional: Property to easily get the image URL
+    @property
+    def image_url(self):
+        if self.image_file:
+            # Assumes images are stored in static/uploads/client_images
+            # Adjust the path if your UPLOAD_FOLDER is different
+            return url_for('static', filename=f'uploads/client_images/{self.image_file}')
+        else:
+            # Return path to a default placeholder image or None
+            return url_for('static', filename='uploads/client_images/default.png') # Example placeholder
 
 # Rent record model
 class RentRecord(db.Model):

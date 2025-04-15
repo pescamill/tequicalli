@@ -5,6 +5,7 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+      - uploads_volume:/app/static/uploads/uploads
     restart: always
 
   nginx:
@@ -39,3 +40,4 @@ volumes:
   certbot_certs:
   certbot_www:
   db_data:
+  uploads_volume:
