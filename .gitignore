@@ -5,8 +5,12 @@ __pycache__/
 *.pyo
 *.pyd
 
+#deploy
+deploy.sh
+
 # Docker / Certbot / Temporary
 certbot_certs/
+certbot/
 certbot_www/   
 temp_certs/
 
@@ -17,3 +21,7 @@ temp_certs/
 .vscode/
 .idea/
 *.DS_Store
+
+#db
+instance/
+env
