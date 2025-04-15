@@ -76,7 +76,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/twice')
-def index():
+def twice():
     return render_template('twice.html')
 
 @app.route('/houses', methods=['GET'])
