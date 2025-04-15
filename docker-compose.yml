@@ -5,6 +5,10 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:supersecure@db:5432/tequicalli
     restart: always
 
   nginx:
@@ -28,6 +32,15 @@ services:
       - certbot_certs:/etc/letsencrypt
       - certbot_www:/var/www/certbot
 
+  db:
+  image: postgres:14
+  container_name: tequicalli-db
+  env_file:
+    - .env
+  volumes:
+    - db_data:/var/lib/postgresql/data
+
 volumes: 
   certbot_certs:
   certbot_www:
+  db_data:
