@@ -75,6 +75,10 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
+@app.route('/twice')
+def index():
+    return render_template('twice.html')
+
 @app.route('/houses', methods=['GET'])
 def houses():
     all_houses = House.query.all()
