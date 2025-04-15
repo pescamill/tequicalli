@@ -1,5 +1,7 @@
 from flask import Flask, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
+import uuid
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin
 import os
