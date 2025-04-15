@@ -9,6 +9,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'super-secret-key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tequicalli.db'
 db = SQLAlchemy(app)
+migrate = Migrate(app,db)
 login_manager = LoginManager(app)
 
 # Base directory for all uploads within the container
